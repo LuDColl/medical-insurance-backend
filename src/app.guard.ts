@@ -1,6 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -38,7 +39,13 @@ export class AppGuard implements CanActivate {
     if (!token) throw new UnauthorizedException();
 
     try {
-      await this.jwtService.verifyAsync<Payload>(token);
+      const payload = await this.jwtService.verifyAsync<Payload>(token);
+      const { rules } = payload;
+      const { url, method } = request;
+      const rule = rules.find(({ path }) => url.includes(path));
+      if (!rule) throw new ForbiddenException();
+
+      if (rule.method && rule.method !== method) throw new ForbiddenException();
     } catch {
       throw new UnauthorizedException();
     }
