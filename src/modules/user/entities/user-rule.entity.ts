@@ -8,7 +8,7 @@ export class UserRule extends Base {
   path: string;
 
   @Column({ nullable: true })
-  method: string;
+  method?: string;
 
   @ManyToOne(() => User, { nullable: false })
   user: User;

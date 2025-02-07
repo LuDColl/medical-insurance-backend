@@ -10,12 +10,14 @@ import { Request } from 'express';
 import { Payload } from './modules/auth/models/payload.model';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './keys';
+import { ClsService } from 'nestjs-cls';
 
 @Injectable()
 export class AppGuard implements CanActivate {
   constructor(
-    private jwtService: JwtService,
-    private reflector: Reflector,
+    private readonly jwtService: JwtService,
+    private readonly reflector: Reflector,
+    private readonly clsService: ClsService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -46,6 +48,8 @@ export class AppGuard implements CanActivate {
       if (!rule) throw new ForbiddenException();
 
       if (rule.method && rule.method !== method) throw new ForbiddenException();
+
+      this.clsService.set('payload', payload);
     } catch {
       throw new UnauthorizedException();
     }

@@ -3,7 +3,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { PostLoginBody } from './dtos/post-login.dto';
+import { PostLogin } from './dtos/post-login.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -16,11 +16,11 @@ import { plainToInstance } from 'class-transformer';
 export class AuthService {
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>,
-    private jwtService: JwtService,
+    private readonly usersRepository: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
 
-  async login({ name, password }: PostLoginBody): Promise<string> {
+  async login({ name, password }: PostLogin): Promise<string> {
     const user = await this.usersRepository.findOne({
       select: {
         id: true,

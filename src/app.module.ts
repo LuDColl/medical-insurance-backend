@@ -10,7 +10,8 @@ import { AppGuard } from './app.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { CompanyModule } from './modules/company/company.module';
 import { SpecialtyModule } from './modules/specialty/specialty.module';
-import { ExamModule } from './modules/exam/exam.module';
+import { ServiceModule } from './modules/service/service.module';
+import { ClsModule } from 'nestjs-cls';
 
 @Module({
   imports: [
@@ -28,12 +29,16 @@ import { ExamModule } from './modules/exam/exam.module';
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '15m' },
+    }),
+    ClsModule.forRoot({
+      global: true,
+      middleware: { mount: true },
     }),
     AuthModule,
     UserModule,
     SpecialtyModule,
-    ExamModule,
+    ServiceModule,
     CompanyModule,
   ],
   controllers: [AppController],

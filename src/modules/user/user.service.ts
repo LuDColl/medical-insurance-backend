@@ -7,15 +7,18 @@ import { plainToInstance } from 'class-transformer';
 import { PostUserBodyDto } from './dtos/post-user.dto';
 import { hash } from 'bcrypt';
 import { UserRule } from './entities/user-rule.entity';
+import { ClsService } from 'nestjs-cls';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private readonly userRepository: Repository<User>,
 
     @InjectRepository(UserRule)
-    private userRuleRepository: Repository<UserRule>,
+    private readonly userRuleRepository: Repository<UserRule>,
+
+    private readonly clsService: ClsService,
   ) {}
 
   async getAll(): Promise<GetUserDto[]> {
@@ -32,7 +35,15 @@ export class UserService {
     if (userExists) throw new BadRequestException('User already exists');
 
     const passwordHash = await hash(password, 12);
-    const userRules = this.userRuleRepository.create(rules);
+    const payload = this.clsService.get('payload');
+
+    const toUserRules = rules.map(({ path, method }) => ({
+      path,
+      method,
+      insertUserId: payload.id,
+    }));
+
+    const userRules = this.userRuleRepository.create(toUserRules);
 
     const user = this.userRepository.create({
       name: name,
