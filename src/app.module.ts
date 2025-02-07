@@ -8,6 +8,9 @@ import { AuthModule } from './modules/auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { AppGuard } from './app.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { CompanyModule } from './modules/company/company.module';
+import { SpecialtyModule } from './modules/specialty/specialty.module';
+import { ExamModule } from './modules/exam/exam.module';
 
 @Module({
   imports: [
@@ -29,6 +32,9 @@ import { APP_GUARD } from '@nestjs/core';
     }),
     AuthModule,
     UserModule,
+    SpecialtyModule,
+    ExamModule,
+    CompanyModule,
   ],
   controllers: [AppController],
   providers: [

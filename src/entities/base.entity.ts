@@ -1,7 +1,10 @@
+import { User } from 'src/modules/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -16,5 +19,12 @@ export abstract class Base {
   deleteDate?: string;
 
   @Column({ nullable: true, select: false })
-  updateId?: number;
+  previousId?: number;
+
+  @Column({ select: false })
+  insertUserId: number;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'insertUserId' })
+  insertUser: User;
 }

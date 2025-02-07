@@ -31,7 +31,7 @@ export class UserService {
     const userExists = await this.userRepository.exists({ where: { name } });
     if (userExists) throw new BadRequestException('User already exists');
 
-    const passwordHash = await hash(password, 10);
+    const passwordHash = await hash(password, 12);
     const userRules = this.userRuleRepository.create(rules);
 
     const user = this.userRepository.create({
