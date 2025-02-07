@@ -3,7 +3,8 @@ import { Specialty } from 'src/modules/specialty/entities/specialty.entity';
 import {
   Column,
   Entity,
-  ManyToOne,
+  JoinTable,
+  ManyToMany,
   Tree,
   TreeChildren,
   TreeParent,
@@ -11,22 +12,20 @@ import {
 
 @Entity()
 @Tree('adjacency-list')
-export class Service extends Base {
+export class Exam extends Base {
   @Column()
   name: string;
-
-  @Column()
-  specialtyId: number;
 
   @Column({ nullable: true })
   parentId?: number;
 
-  @ManyToOne(() => Specialty, { nullable: true })
-  specialty?: Specialty;
+  @JoinTable()
+  @ManyToMany(() => Specialty, { cascade: true })
+  specialties: Specialty[];
 
   @TreeParent()
-  parent?: Service;
+  parent?: Exam;
 
   @TreeChildren()
-  children?: Service[];
+  children?: Exam[];
 }

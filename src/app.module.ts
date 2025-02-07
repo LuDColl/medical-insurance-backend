@@ -10,8 +10,10 @@ import { AppGuard } from './app.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { CompanyModule } from './modules/company/company.module';
 import { SpecialtyModule } from './modules/specialty/specialty.module';
-import { ServiceModule } from './modules/service/service.module';
+import { ExamModule } from './modules/exam/exam.module';
 import { ClsModule } from 'nestjs-cls';
+import { LocalModule } from './modules/local/local.module';
+import { ProcedureModule } from './modules/procedure/procedure.module';
 
 @Module({
   imports: [
@@ -38,8 +40,10 @@ import { ClsModule } from 'nestjs-cls';
     AuthModule,
     UserModule,
     SpecialtyModule,
-    ServiceModule,
+    ExamModule,
+    ProcedureModule,
     CompanyModule,
+    LocalModule,
   ],
   controllers: [AppController],
   providers: [
