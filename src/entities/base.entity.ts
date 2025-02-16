@@ -21,10 +21,10 @@ export abstract class Base {
   @Column({ nullable: true, select: false })
   previousId?: number;
 
-  @Column({ select: false, nullable: true })
+  @Column({ select: false })
   insertUserId: number;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { createForeignKeyConstraints: false })
   @JoinColumn({ name: 'insertUserId' })
-  insertUser?: User;
+  insertUser: User;
 }

@@ -6,9 +6,6 @@ import { Exam } from 'src/modules/exam/entities/exam.entity';
 @Entity()
 export class LocalExam extends Base {
   @Column()
-  name: string;
-
-  @Column()
   price: number;
 
   @ManyToOne(() => Local)

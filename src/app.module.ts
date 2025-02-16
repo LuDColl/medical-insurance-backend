@@ -14,6 +14,7 @@ import { ExamModule } from './modules/exam/exam.module';
 import { ClsModule } from 'nestjs-cls';
 import { LocalModule } from './modules/local/local.module';
 import { ProcedureModule } from './modules/procedure/procedure.module';
+import { RegionalCouncilModule } from './modules/regional-counsil/regional-council.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { ProcedureModule } from './modules/procedure/procedure.module';
     ProcedureModule,
     CompanyModule,
     LocalModule,
+    RegionalCouncilModule,
   ],
   controllers: [AppController],
   providers: [
