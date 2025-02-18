@@ -1,32 +1,26 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import {
-  DocumentBuilder,
-  SwaggerDocumentOptions,
-  SwaggerModule,
-} from '@nestjs/swagger';
+import { AppModule } from './app/app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { swaggerCustomOptions, swaggerDocumentOptions } from './main.options';
+import { DESCRIPTION, PATH, TITLE, VERSION } from './main.consts';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
+
   const config = new DocumentBuilder()
-    .setTitle('Medical Insurance API')
-    .setDescription('API for a medical insurance company')
-    .setVersion('1.0')
+    .setTitle(TITLE)
+    .setDescription(DESCRIPTION)
+    .setVersion(VERSION)
     .addBearerAuth()
     .build();
 
-  const options: SwaggerDocumentOptions = {
-    autoTagControllers: true,
-  };
-
   const documentFactory = () =>
-    SwaggerModule.createDocument(app, config, options);
+    SwaggerModule.createDocument(app, config, swaggerDocumentOptions);
 
-  SwaggerModule.setup('swagger', app, documentFactory, {
-    jsonDocumentUrl: 'swagger/json',
-  });
+  SwaggerModule.setup(PATH, app, documentFactory, swaggerCustomOptions);
 
   await app.listen(process.env.PORT ?? 3000);
 }
+
 bootstrap();
