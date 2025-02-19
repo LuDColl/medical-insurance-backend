@@ -12,16 +12,17 @@ import { ClsModule } from 'nestjs-cls';
 import { LocalModule } from './modules/local/local.module';
 import { ProcedureModule } from './modules/procedure/procedure.module';
 import { RegionalCouncilModule } from './modules/regional-counsil/regional-council.module';
-import { clsModuleOptions, jwtModuleOptions } from './app.options';
+import { clsModuleOptions } from './app.options';
 import { AppGuardProvider } from './app.providers';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmModuleAsyncOptions } from './modules/type-orm/type-orm.options';
+import { jwtModuleAsyncOptions } from './modules/jwt/jwt.options';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync(typeOrmModuleAsyncOptions),
-    JwtModule.register(jwtModuleOptions),
+    JwtModule.registerAsync(jwtModuleAsyncOptions),
     ClsModule.forRoot(clsModuleOptions),
     AuthModule,
     UserModule,
